@@ -4,7 +4,7 @@ class nCr{
     public:
     vector<long long> fac;
     int mod;
-    nCr(int _mod){
+    nCr(int mod){
         mod = _mod; 
         fac.resize(1e6+5, 0);
         fac[0] = 1;

@@ -27,7 +27,7 @@ void mapTraversal(map<char, int> &mpp);
 vector<int> testCases();
 vector<ll> getFactors(ll n); // O(sqrt(n))
 string StringtestCases();
-// ll power(ll a, ll b, ll modu); // a^b
+ll power(ll a, ll b, ll modu); // a^b
 void makeSet(int parent[], int rank[], int n);
 int findParent(int parent[], int node);
 void unionDSU(int u, int v, int parent[], int rank[]);
@@ -46,7 +46,65 @@ ll giveSqrt(ll x){
     }
     return ans;
 }
-
+class nCr{
+    public:
+    vector<long long> fac;
+    int mod;
+    nCr(int _mod){
+        mod = _mod; 
+        fac.resize(1e6+5, 0);
+        fac[0] = 1;
+        for(int i=1; i<fac.size(); i++){
+            fac[i] = (fac[i-1] * i)%mod;
+        }
+    }
+    long long binaryExponentiation(long long a, long long b){
+        // a^b;
+        if(b == 0) return 1;
+        long long ans = binaryExponentiation(a, b/2);
+        ans = (ans*ans) % mod;
+        if(b%2) ans = (ans*a) % mod;
+        return ans;
+    }
+    long long moduloInverse(long long a){
+        return binaryExponentiation(a, mod - 2);
+    }
+    long long combination(int n, int r){
+        long long ans = fac[n];
+        ans = (ans * moduloInverse(fac[n-r])) % mod;
+        ans = (ans * moduloInverse(fac[r])) % mod;
+        return ans;
+    }
+};
+class DSU{
+    public:
+    vector<int> parent, rank;
+    DSU(int n){
+        parent.resize(n);
+        rank.resize(n, 0);
+        for(int i=1; i<n; i++){
+            parent[i] = i;
+            rank[i] = 0;
+        }
+    }
+    int findParent(int node){
+        if(node == parent[node]){
+            return node;
+        }
+        return parent[node] = findParent(parent[node]);
+    }
+    void unionDSU(int u, int v){
+        v = findParent(v); u = findParent(u); 
+        if(rank[u] < rank[v]){
+            parent[u] = v;
+        }else if(rank[u] > rank[v]){
+            parent[v] = u;
+        }else{
+            parent[u] = v;
+            rank[u]++;
+        }
+    }
+};
 void solve(){
     
 }
@@ -62,34 +120,6 @@ int main() {
 	return 0;
 }
 
-//////disjoint set union ///////
-
-// void makeSet(int parent[], int rank[], int n){
-//     for(int i=1; i<n; i++){
-//         parent[i] = i;
-//         rank[i] = 0;
-//     }
-// }
-// int findParent(int parent[], int node){
-//     if(node == parent[node]){
-//         return node;
-//     }
-//     return parent[node] = findParent(parent, parent[node]);
-// }
-// void unionDSU(int u, int v, int parent[], int rank[]){
-//     v = findParent(parent, v); u = findParent(parent, u); 
-//     if(rank[u] < rank[v]){
-//         parent[u] = v;
-//     }
-//     else if(rank[u] > rank[v]){
-//         parent[v] = u;
-//     }else{
-//         parent[u] = v;
-//         rank[u]++;
-//     }
-// }
-
-//////////////////////////////
 
 ll power(ll a, ll b, ll modu){
     // a ^ b
@@ -114,12 +144,6 @@ vector<ll> getFactors(ll n){
     }
     return v;
 }
-void traverseArray(ll arr[], int n){
-    for(int i=0; i<n; i++){
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-}
 void traverseVector(vector<ll> v){
     int n = v.size();
     for(int i=0; i<n; i++){
@@ -140,10 +164,4 @@ vector<bool> primeNumber(int n){
         }
     }
     return v;
-}
-void mapTraversal(map<char, int> &mpp){
-    for(auto it : mpp){
-        cout << it.first << "->" << it.second << " ";   
-    }
-    cout << endl;
 }
