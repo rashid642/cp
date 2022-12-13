@@ -4,6 +4,7 @@ using namespace std;
 #define ll long long 
 #define rep(n, m) for(int i=n; i<m; i++)
 #define repj(n, m) for(int j=n; j<m; j++)
+#define repk(n, m) for(int k=n; k<m; k++)
 #define rrep(n, m) for(int i=n; i>=m; i--)
 #define yes cout << "YES\n";
 #define no cout << "NO\n";
@@ -15,11 +16,19 @@ using namespace std;
 #define imax INT_MAX
 #define imin INT_MIN 
 #define sum(v) accumulate(v.begin(), v.end(), 0LL);
-#define index(i, j) cout << "(" << i << "," << j << ") "
+#define index2(i, j) cout << "(" << i << "," << j << ") "
 #define index3(i, j, k) cout << "(" << i << "," << j << "," << k << ") "
 #define all(v) v.begin(), v.end()
 #define PI 3.141592653589793
+#define vll vector<long long>
+#define vvll vector<vector<long long>>
 // number of subset index ind belong = (ind+1)(n-ind) with 0 indexing
+
+// Cin overloads
+template <typename T1, typename T2> // cin >> pair<T1, T2>
+istream &operator>>(istream &istream, pair<T1, T2> &p){return (istream >> p.first >> p.second);}
+template <typename T> // cin >> vector<T>
+istream &operator>>(istream &istream, vector<T> &v){for (auto &it : v) cin >> it; return istream;}
 
 ll giveSqrt(ll x){
     ll low = 1, high = 3e9, ans = 1;
@@ -125,19 +134,26 @@ class DSU{
         }
     }
 };
+bool isPalindrome(string s){
+    int i = 0, j = s.size()-1;
+    while(i < j){
+        if(s[i] != s[j]) return false; 
+        i++, j--;
+    }
+    return true;
+}
 void solve(){
+    
 }
 int main() {
     srand(time(NULL));
     ios::sync_with_stdio(false);
     cin.tie(0);
-	ll t = 1;
-	cin >> t;
-	while(t--){
-	    solve();
-	}
-	return 0;
+    ll t = 1;
+    cin >> t;
+    while(t--){
+        solve();
+    }
+    return 0;
 }
-
-
 

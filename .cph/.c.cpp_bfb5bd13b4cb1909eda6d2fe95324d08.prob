@@ -1,0 +1,1 @@
+{"name":"Local: c","url":"c:\\Users\\khush\\Desktop\\nawab\\cp\\c.cpp","tests":[{"id":1670341324728,"input":"2\n3 2\n1 3\n2 3\n4 2\n1 2\n2 3\n","output":""},{"id":1670777715784,"input":"1\n4 2\n1 2\n2 3","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\khush\\Desktop\\nawab\\cp\\c.cpp","group":"local","local":true}
