@@ -20,6 +20,11 @@
         "vector": "cpp",
         "initializer_list": "cpp",
         "regex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "cstdlib": "cpp",
+        "bitset": "cpp",
+        "set": "cpp",
+        "random": "cpp",
+        "ostream": "cpp"
     }
 }

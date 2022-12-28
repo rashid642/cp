@@ -23,6 +23,8 @@ using namespace std;
 #define vll vector<long long>
 #define vvll vector<vector<long long>>
 // number of subset index ind belong = (ind+1)(n-ind) with 0 indexing
+// If a particular bit is set in array then if we take all the subsequence of that
+// array then that set bit will will occur 2^(n-1) times
 
 // Cin overloads
 template <typename T1, typename T2> // cin >> pair<T1, T2>
@@ -134,13 +136,20 @@ class DSU{
         }
     }
 };
-bool isPalindrome(string s){
+bool isPalindrome(vll s){
     int i = 0, j = s.size()-1;
     while(i < j){
         if(s[i] != s[j]) return false; 
         i++, j--;
     }
     return true;
+}
+vector<int> decimalToBinary(ll n){
+    vector<int> v(32, 0);
+    for(int i=31; i>=0; i--) if(n & (1 << i)) v[i] = 1;
+    return v;
+}
+void precompute(){
 }
 void solve(){
     
@@ -150,6 +159,7 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(0);
     ll t = 1;
+    precompute();
     cin >> t;
     while(t--){
         solve();
