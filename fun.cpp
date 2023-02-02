@@ -152,7 +152,24 @@ vector<int> decimalToBinary(ll n){
 void precompute(){
 }
 void solve(){
-    
+    int n;
+    cin >> n;
+    vll v(n);
+    cin >> v;
+    ll tot = sum(v);
+    rep(0, n-1){
+        if(v[i] == -1 && v[i+1] == -1){
+            cout << tot + 4 << endl;
+            return;
+        }
+    }
+    rep(0, n-1){
+        if(v[i] + v[i+1] == 0){
+            cout << tot << endl;
+            return;
+        }
+    }
+    cout << tot - 4 << endl;
 }
 int main() {
     srand(time(NULL));

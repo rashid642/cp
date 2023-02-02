@@ -25,6 +25,8 @@
         "bitset": "cpp",
         "set": "cpp",
         "random": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "chrono": "cpp",
+        "limits": "cpp"
     }
 }
