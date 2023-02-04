@@ -15,7 +15,7 @@ using namespace std;
 #define endl "\n"
 #define imax INT_MAX
 #define imin INT_MIN 
-#define sum(v) accumulate(v.begin(), v.end(), 0LL);
+// #define sum(v) accumulate(v.begin(), v.end(), 0LL);
 #define index2(i, j) cout << "(" << i << "," << j << ") "
 #define index3(i, j, k) cout << "(" << i << "," << j << "," << k << ") "
 #define all(v) v.begin(), v.end()
@@ -151,25 +151,105 @@ vector<int> decimalToBinary(ll n){
 }
 void precompute(){
 }
+class SegmentTree{
+    public:
+    vector<long long> tree, lazy;
+    SegmentTree(int n){
+        tree.resize(4*n+1, 0);
+        lazy.resize(4*n+1, 0);
+    }
+    void build(int l, int r, int ind, vector<long long> &v){
+        if(l == r){
+            tree[ind] = v[l];
+            return;
+        }
+        int mid = (l + r) / 2;
+        build(l, mid, 2*ind+1, v);
+        build(mid+1, r, 2*ind+2, v);
+        tree[ind] = tree[2*ind+1] + tree[2*ind+2];
+    }
+    long long rangeSum(int l, int r, int ind, int i, int j){
+        // i and j are range in which you want the sum
+        tree[ind] = tree[ind] + (r - l + 1) * lazy[ind];
+        if(l != r){
+            lazy[2*ind+1] += lazy[ind];
+            lazy[2*ind+2] += lazy[ind];
+        }
+        lazy[ind] = 0;
+        if(i <= l && r <= j){
+            return tree[ind];
+        }
+        if(r < i || l > j) {
+            return 0;
+        }
+        int mid = (l + r) / 2;
+        long long left = rangeSum(l, mid, 2*ind+1, i, j);
+        long long right = rangeSum(mid+1, r, 2*ind+2, i, j);
+        tree[ind] = tree[2*ind+1] + tree[2*ind+2];
+        return left + right;
+    }
+    void rangeUpdate(int l, int r, int ind, int i, int j, int val){
+        tree[ind] = tree[ind] + (r - l + 1) * lazy[ind];
+        if(l != r){
+            lazy[2*ind+1] += lazy[ind];
+            lazy[2*ind+2] += lazy[ind];
+        }
+        lazy[ind] = 0;
+        if(i <= l && r <= j){
+            tree[ind] = tree[ind] + (r - l + 1) * val;
+            if(l != r){
+                lazy[2*ind+1] += val;
+                lazy[2*ind+2] += val;
+            }
+            return;
+        }
+        if(r < i || l > j) {
+            return;
+        }
+        int mid = (l + r) / 2;
+        rangeUpdate(l, mid, 2*ind+1, i, j, val);
+        rangeUpdate(mid+1, r, 2*ind+2, i, j, val);
+        tree[ind] = tree[2*ind+1] + tree[2*ind+2];
+    }
+};
+ll helper(ll num, int count){
+    rep(0, count){
+        ll newn = 0;
+        if(num < 10) break;
+        while(num > 0){
+            newn += num % 10;
+            num /= 10;
+        }
+        num = newn;
+    }
+    return num;
+}
 void solve(){
-    int n;
-    cin >> n;
+    int n, q;
+    cin >> n >> q;
     vll v(n);
     cin >> v;
-    ll tot = sum(v);
-    rep(0, n-1){
-        if(v[i] == -1 && v[i+1] == -1){
-            cout << tot + 4 << endl;
-            return;
+    SegmentTree st(n);
+    vll tempv(n, 0);
+    st.build(0, n-1, 0, tempv);
+    while(q--){
+        int type;
+        cin >> type;
+        if(type == 1){
+            int l, r;
+            cin >> l >> r;
+            l--;
+            r--;
+            st.rangeUpdate(0, n-1, 0, l, r, 1);
+        }else{
+            ll x;
+            cin >> x;
+            x--;
+            int t = st.rangeSum(0, n-1, 0, x, x);
+            ll ans = helper(v[x], t);
+            cout << ans << endl;
         }
     }
-    rep(0, n-1){
-        if(v[i] + v[i+1] == 0){
-            cout << tot << endl;
-            return;
-        }
-    }
-    cout << tot - 4 << endl;
 }
 int main() {
     srand(time(NULL));
@@ -183,4 +263,3 @@ int main() {
     }
     return 0;
 }
-
