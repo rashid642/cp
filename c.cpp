@@ -13,9 +13,6 @@ using namespace std;
 #define sa(arr, n) sort(arr, arr+n)
 #define endll "\n\n"
 #define endl "\n"
-#define imax INT_MAX
-#define imin INT_MIN 
-// #define sum(v) accumulate(v.begin(), v.end(), 0LL);
 #define index2(i, j) cout << "(" << i << "," << j << ") "
 #define index3(i, j, k) cout << "(" << i << "," << j << "," << k << ") "
 #define all(v) v.begin(), v.end()
@@ -79,7 +76,7 @@ vector<bool> primeNumber(int n){
 }
 void precompute(){
 }
-void solve(){
+void solve(int test){
     
 }
 int main() {
@@ -89,8 +86,8 @@ int main() {
     ll t = 1;
     precompute();
     cin >> t;
-    while(t--){
-        solve();
+    for(int i=1; i<=t; i++){
+        solve(i);
     }
     return 0;
 }
