@@ -61,6 +61,71 @@ class SegmentTree{
         tree[ind] = tree[2*ind+1] + tree[2*ind+2];
     }
 };
+const int N = 2*1e5 + 5;
+class SegmentTree2{
+    public:
+    long long tree[4*N+1], lazy[4*N+1];
+    SegmentTree2(int n){
+        for(int i=0; i<4*N+1; i++){
+            tree[i] = 0;
+            lazy[i] = 0;
+        }
+    }
+    long long operation(long long a, long long b){
+        return (a & b);
+    }
+    long long operation2(long long a, long long b){
+        return (a | b);
+    }
+    void build(int l, int r, int ind, vector<int> &v){
+        if(l == r){
+            tree[ind] = v[l];
+            return;
+        }
+        int mid = (l + r) / 2;
+        build(l, mid, 2*ind+1, v);
+        build(mid+1, r, 2*ind+2, v);
+        tree[ind] = operation(tree[2*ind+1], tree[2*ind+2]);
+    }
+    long long query(int l, int r, int ind, int i, int j){
+        tree[ind] = operation2(tree[ind], lazy[ind]);
+        if(l != r){
+            lazy[2*ind+1] = operation2(lazy[2*ind+1], lazy[ind]);
+            lazy[2*ind+2] = operation2(lazy[2*ind+2], lazy[ind]);
+        }
+        lazy[ind] = 0;
+
+        if(r < i || j < l) return 0;
+        if(i <= l && r <= j) return tree[ind];
+        int mid = (l + r) / 2;
+        return operation(query(l, mid, 2*ind+1, i, j), query(mid+1, r, 2*ind+2, i, j));
+    }
+    void update(int l, int r, int ind, int i, int j, int val){
+        tree[ind] = operation2(tree[ind], lazy[ind]);
+        if(l != r){
+            lazy[2*ind+1] = operation2(lazy[2*ind+1], lazy[ind]);
+            lazy[2*ind+2] = operation2(lazy[2*ind+2], lazy[ind]);
+        }
+        lazy[ind] = 0;
+
+        if(r < i || j < l) return;
+        if(i <= l && r <= j) {
+            tree[ind] = operation2(tree[ind], val);
+            if(l != r){
+                lazy[2*ind+1] = operation2(lazy[2*ind+1], val);
+                lazy[2*ind+2] = operation2(lazy[2*ind+2], val);
+            }
+            return;
+        }
+        int mid = (l + r) / 2;
+        update(l, mid, 2*ind+1, i, j, val);
+        update(mid+1, r, 2*ind+2, i, j, val);
+        tree[ind] = operation(tree[2*ind+1], tree[2*ind+2]);
+    }
+    void tv(){
+        for(auto it: tree) cout << it << " "; cout << endl;
+    }
+};
 int main(){
     return 0;
 }

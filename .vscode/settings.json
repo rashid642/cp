@@ -27,6 +27,8 @@
         "random": "cpp",
         "ostream": "cpp",
         "chrono": "cpp",
-        "limits": "cpp"
+        "limits": "cpp",
+        "shared_mutex": "cpp",
+        "sstream": "cpp"
     }
 }

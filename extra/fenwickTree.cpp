@@ -54,7 +54,71 @@ int sum(int i){
 int rangeSum(int l, int r){
     return sum(r) - sum(l-1);
 }
+class FenwickTree{
+    public:
+    vector<int> tree;
+    int n;
+    FenwickTree(vector<int> &v){
+        n = v.size();
+        tree.resize(n+1, 0);
+        for(int i=0; i<n; i++) update(i, v[i]);
+    }
+    void update(int i, int val){
+        for(i++; i<=n; i += (i&-i)) tree[i] += val;
+    }
+    int sum(int i){
+        int s = 0;
+        for(i++; i>0; i -= (i&-i)) s += tree[i];
+        return s;
+    }
+    int query(int l, int r){
+        return sum(r) - sum(l - 1);
+    }
+};
+class FenwickTree2D{
+    public:
+    vector<vector<int>> tree;
+    int n, m;
+    FenwickTree2D(vector<vector<int>> &v){
+        n = v.size(), m = v[0].size();
+        tree.resize(n+1, vector<int>(m+1, 0));
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                update(i, j, v[i][j]);
+            }
+        }
+    }
+    void update(int x, int y, int val){
+        for(int i = x + 1; i<=n; i += (i&-i)){
+            for(int j = y + 1; j<=m; j += (j&-j)){
+                tree[i][j] += val;
+            }
+        }
+    }
+    int sum(int x, int y){
+        int s = 0;
+        for(int i = x + 1; i>0; i -= (i&-i)){
+            for(int j = y + 1; j>0; j -= (j&-j)){
+                s += tree[i][j];
+            }
+        }
+        return s;
+    }
+    int query(int r1, int c1, int r2, int c2){
+        return sum(r2, c2) - sum(r1-1, c2) - sum(r2, c1-1) + sum(r1-1, c1-1);
+    }
+};
 int main(){
+    vector<vector<int>> a = {{1,2,3,4},{2,3,4,5},{3,4,5,6}};
+    FenwickTree2D ft2(a);
+    cout << ft2.query(0,0, 2,3) << endl;
+    ft2.update(1,1,10);
     return 0;
 }
 
+    // vector<int> v = {1,2,3,4,5,6};
+    // FenwickTree ft(v);
+    // cout << ft.query(1,3) << endl; // 2 + 3 + 4 -> 9
+    // ft.update(1, -2);
+    // ft.update(1, 20);
+    // cout << ft.query(1, 3) << endl; // 10 + 3 + 4 -> 17
