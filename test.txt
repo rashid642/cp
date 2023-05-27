@@ -1,56 +1,52 @@
-int f(vector<int> v){
-    int n = v.size();
-    vector<int> t = v;
-    sv(v);
-    int i = 0;
-    int ans = 0;
-    multiset<int> a, b;
-    while(i < n){
-        if(v[i] == t[i]){
-            i++;
-            continue;
-        }
-        int j = i;
-        while(i < n && (v[i] != t[i] || !a.empty())){
-            if(b.find(t[i]) != b.end()){
-                b.erase(b.find(t[i]));
-            }else{
-                a.insert(t[i]);
-            }
-            if(a.find(v[i]) != a.end()){
-                a.erase(a.find(v[i]));
-            }else{
-                b.insert(v[i]);
-            }
-            if(a.empty() && b.empty()) {
-                i++;
-                break;
-            }
-            i++;
-        }
-        // if(i != n) index2(v[i], t[i]);
-        ans += ((i - 1) - j);
+class SegmentTree{
+    public: 
+    ll tree[N][5];
+    ll si;
+    SegmentTree(ll n){
+        si = n;
+        // something
     }
-    // tv(v);
-    // tv(t);
-    // cout << ans << endl;
-    return ans;
-}
-void solve(int test){
-    int n;
-    cin >> n;
-    vector<int> v(n);
-    cin >> v;
-    // f(v);
-    // return;
-    ll ans = 0;
-    rep(0, n){
-        vector<int> newv;
-        repj(i, n){
-            newv.push_back(v[j]);
-            // tv(newv);
-            ans += f(newv);
+    ll operation(ll a, ll b){
+        return max(a, b);
+    }
+    ll* query(ll i, ll j, ll l, ll r, ll ind){
+        // complete overlap
+        if(l >= i && r <= j) {
+            return tree[ind];
+        }
+        // no overlap
+        if(j < l || r < i) {
+            ll t[] = {0, 0, 0, 0, 0};
+            return t;
+        }
+        // partial overlap
+        ll mid = (l + r) / 2;
+        ll t[5];
+        ll *left = query(i, j, l, mid, 2*ind+1);
+        ll *right = query(i, j, mid+1, r, 2*ind+2);
+        for(ll k=0; k<5; k++){
+            t[k] = operation(left[i], right[i]);
+        }
+        return t;
+    }
+    void build(vector<vector<ll>> &v, ll l, ll r, ll ind){
+        if(l == r){
+            for(ll k=0; k<5; k++){
+                tree[ind][k] = v[l][k];
+            }
+            return;
+        }
+        ll mid = (l + r) / 2;
+        build(v, l, mid, 2*ind+1);
+        build(v, mid+1, r, 2*ind+2);
+        for(ll k=0; k<5; k++){
+            tree[ind][k] = operation(tree[2*ind+1][k], tree[2*ind+2][k]);
         }
     }
-    cout << ans << endl;
-}
+    ll make_query(ll l, ll r){
+        ll* t = query(l, r, 0, si-1, 0);
+        ll ans = 0;
+        for(ll i=0; i<5; i++) ans += t[i];
+        return ans;
+    }
+};

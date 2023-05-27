@@ -29,6 +29,7 @@
         "chrono": "cpp",
         "limits": "cpp",
         "shared_mutex": "cpp",
-        "sstream": "cpp"
+        "sstream": "cpp",
+        "iosfwd": "cpp"
     }
 }

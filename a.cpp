@@ -32,44 +32,19 @@ istream &operator>>(istream &istream, vector<T> &v){for (auto &it : v) cin >> it
 
 void precompute(){
 }
-int dfs(set<int> adj[], int node, vector<int> &vis, int par){
-    vis[node] = 1;
-    for(auto it: adj[node]){
-        if(it == par) continue;
-        if(vis[it]) {
-            return true;
-        }
-        if(dfs(adj, it, vis, node)) return true;
-    }
-    return false;
-}
 void solve(int test){
-    int n;
-    cin >> n;
-    set<int> adj[n+1];
-    for(int i=1; i<=n; i++) {
-        int u;
-        cin >> u;
-        adj[i].insert(u);
-        adj[u].insert(i);
-    }
-    vector<int> vis(n+1, 0);
-    int cycle = 0, com = 0;
-    for(int i=1; i<=n; i++){
-        if(vis[i]) continue;
-        if(dfs(adj, i, vis, -1)){
-            cycle++;
-        }
-        com++;
-    }
-    // cout << endl;
-    if(cycle == com) cycle--;
-    cout << cycle + 1 << " " << com << endl; 
+    
 }
 int main() {
+#ifndef ONLINE_JUDGE
+    // for getting input from input.txt
+    freopen("input1.txt", "r", stdin);
+    // for writing output to output.txt
+    freopen("output1.txt", "w", stdout);
+#endif
     srand(time(NULL));
     ios::sync_with_stdio(false);
-    cin.tie(0);
+    cin.tie(0); 
     ll t = 1;
     precompute();
     cin >> t;
