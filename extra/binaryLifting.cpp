@@ -17,18 +17,30 @@ class BinaryLifting{
     vector<vector<int>> adj;
     vector<int> level;
     int n, m, source;
-    BinaryLifting(vector<int> p, int _n, int s){
+    BinaryLifting(vector<int> p, int _n){
         n = _n;
-        m = 17; source = s;
+        m = 21; 
         parent = p;
         adj.resize(n+1);
         dp.resize(n+1, vector<int> (m, 0));
         level.resize(n+1);
         for(int i=1; i<=n; i++){
-            if(p[i] == -1) continue;
+            if(p[i] == -1) {
+                source = i;
+                continue;
+            }
             adj[p[i]].push_back(i);
             adj[i].push_back(p[i]);
         }
+        precomutation(source, 0, 0);
+    }
+    BinaryLifting(vector<vector<int>> v, int _n){
+        source = 1;
+        n = _n;
+        m = 21; 
+        adj = v;
+        dp.resize(n+1, vector<int> (m, 0));
+        level.resize(n+1);
         precomutation(source, 0, 0);
     }
     void precomutation(int node, int par, int depth){
@@ -62,7 +74,51 @@ class BinaryLifting{
         }
         return dp[node1][0];
     }
+    int distance(int node1, int node2){
+        return level[node1] + level[node2] - 2*level[LCA(node1, node2)];
+    }
 };
+/*
+const int N = 2e5 + 1, M = 20;
+ 
+vector<int> adj[N];
+int dep[N], Par[N][M], path[N];
+ 
+void dfs(int cur, int par) 
+{
+    dep[cur] = dep[par] + 1;
+    Par[cur][0] = par;
+    for (int j = 1; j < M; j++) Par[cur][j] = Par[Par[cur][j - 1]][j - 1];
+    for (auto x : adj[cur]) if (x != par)  dfs(x, cur);
+}
+ 
+int LCA(int u, int v) 
+{
+    if (u == v) return u;
+    if (dep[u] < dep[v]) swap(u, v);
+
+    int diff = dep[u] - dep[v];
+
+    for (int j = M - 1; j >= 0; j--) 
+        if ((diff >> j) & 1) u = Par[u][j];
+    
+    for (int j = M - 1; j >= 0; j--) 
+    {
+        if (Par[u][j] != Par[v][j]) {
+            u = Par[u][j];
+            v = Par[v][j];
+        }
+    }
+ 
+    return (u != v ? Par[u][0] : u);
+}
+ 
+int distance(int a, int b)
+{
+    int c = LCA(a, b);
+    return dep[a] + dep[b] - 2*dep[c];
+}
+*/
 int main(){
     // 8
     // -1 1 1 2 2 5 5 7
@@ -70,7 +126,7 @@ int main(){
     cin >> n;
     vector<int> v(n+1);
     for(int i=1; i<=n; i++) cin >> v[i];
-    BinaryLifting bf(v, n, 1);
+    BinaryLifting bf(v, n);
     for(int i=1; i<=n; i++){
         cout << i << "->";
         for(auto it: bf.dp[i]) cout << it << " "; cout << endl;

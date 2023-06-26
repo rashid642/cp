@@ -1,47 +1,54 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+ 
 #define ll long long
 #define index2(i, j) cout << "(" << i << "," << j << ") "
+#define index3(i, j, k) cout << "(" << i << "," << j << "," << k << ") "
+#define tv(v) for(auto it: v) cout << it << " "; cout << endl
 const int mod = 1e9 + 7;
-const int N = 2e5 + 10;
-vector<int> adj[N];
-int c[N];
-int dp[N];
-int par[N];
+ 
+void precompute(){
+}
+int n, m;
+void dfs(vector<int> adj[], int node, vector<int> &dp, vector<int> &par, vector<int> &vis){
+    vis[node] = 1;
+    if(node == n){
+        dp[node] = 1;
+        return; 
+    }
+    for(auto it: adj[node]){
+        if(!vis[it]){
+            dfs(adj, it, dp, par, vis);
+        }
+        if(dp[node] < 1 + dp[it]){
+            par[node] = it;
+        }
+        dp[node] = max(dp[node], 1 + dp[it]);
+    }
+}
 void solve(int test){
-    int n;
-    cin >> n;
-    int root = 0;
-    for(int i=1; i<=n; i++){
-        int p;
-        cin >> p >> c[i];
-        if(p == -1) {
-            root = i;
-            continue;
-        }
-        par[i] = p;
-        adj[i].push_back(p);
-        adj[p].push_back(i);
+    cin >> n >> m;
+    vector<int> adj[n+1];
+    for(int i=0; i<m; i++){
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
     }
-    for(int i=1; i<=n; i++){
-        for(auto it: adj[i]){
-            if(par[i] == it) continue;
-            if(c[it] == 0) dp[i] = 1;
-        }
-    }
-    // for(int i=1; i<=n;i ++) index2(dp[i], c[i]);
-    vector<int> ans;
-    for(int i=1; i<=n; i++){
-        if(c[i] == 1 && dp[i] == 0){
-            ans.push_back(i);
-        }
-    }
-    if(ans.size() == 0){
-        cout << -1 << endl;
+    vector<int> dp(n+1, INT_MIN), par(n+1, -1), vis(n+1, 0);
+    dfs(adj, 1, dp, par, vis);
+    if(!vis[n]){
+        cout << "IMPOSSIBLE\n";
         return;
     }
-    for(auto it: ans) cout << it << " "; cout << endl;
+    vector<int> ans;
+    int node = 1;
+    while(node != n){
+        ans.push_back(node);
+        node = par[node];
+    }
+    ans.push_back(node);
+    cout << ans.size() << endl;
+    tv(ans);
 }   
 int main() {
 #ifndef ONLINE_JUDGE
@@ -54,6 +61,7 @@ int main() {
     cin.tie(0); 
     int t = 1;
     // cin >> t;
+    precompute();
     for(int i=1; i<=t; i++){
         solve(i);
     }

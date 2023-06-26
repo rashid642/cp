@@ -1,14 +1,5 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-
-#define ll long long
-#define index2(i, j) cout << "(" << i << "," << j << ") "
-#define index3(i, j, k) cout << "(" << i << "," << j << "," << k << ") "
-#define tv(v) for(auto it: v) cout << it << " "; cout << endl
-const int mod = 1e9 + 7;
-
-void precompute(){
-}
 vector<int> LPS(string s){
     int n = s.size();
     vector<int> v(n, 0);
@@ -54,26 +45,9 @@ vector<int> KMP(string s, string pat){
     }
     return ans;
 }
-void solve(int test){
-    string s, pat;
-    cin >> s >> pat;
-    vector<int> ans = KMP(s, pat);
-    if(ans.size() == 0){
-        cout << "Not Found\n\n";
-        return;
-    }
-    cout << ans.size() << endl;
-    for(auto it: ans) cout << it + 1 << " "; cout << endl;
-    cout << endl;
-}   
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(0); 
-    int t = 1;
-    cin >> t;
-    precompute();
-    for(int i=1; i<=t; i++){
-        solve(i);
-    }
-    return 0;
+int main(){
+    // string s = "AABAACAADAABAABA";
+    // LPS(s);
+    KMP("baabaaa", "aa");
+    return 1;
 }

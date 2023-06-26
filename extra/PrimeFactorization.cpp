@@ -60,7 +60,7 @@ int main(int argc, char const *argv[])
 {
 	// precalculating Smallest Prime Factor
 	sieve();
-	int x = 12246;
+	int x = 9856;
 	cout << "prime factorization for " << x << " : ";
 
 	// calling getFactorization function

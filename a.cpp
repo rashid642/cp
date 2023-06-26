@@ -1,53 +1,67 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define ll long long 
-#define rep(n, m) for(int i=n; i<m; i++)
-#define repj(n, m) for(int j=n; j<m; j++)
-#define repk(n, m) for(int k=n; k<m; k++)
-#define rrep(n, m) for(int i=n; i>=m; i--)
-#define yes cout << "YES\n";
-#define no cout << "NO\n";
-#define sv(v) sort(v.begin(), v.end())
-#define sr(v) sort(v.begin(), v.end()); reverse(v.begin(), v.end());
-#define sa(arr, n) sort(arr, arr+n)
-#define endll "\n\n"
-#define endl "\n"
+#define ll long long
 #define index2(i, j) cout << "(" << i << "," << j << ") "
 #define index3(i, j, k) cout << "(" << i << "," << j << "," << k << ") "
-#define all(v) v.begin(), v.end()
-#define PI 3.141592653589793
-#define vll vector<long long>
-#define vvll vector<vector<long long>>
 #define tv(v) for(auto it: v) cout << it << " "; cout << endl
-// number of subset index ind belong = (ind+1)(n-ind) with 0 indexing
-// If a particular bit is set in array then if we take all the subsequence of that
-// array then that set bit will will occur 2^(n-1) times
-
-// Cin overloads
-template <typename T1, typename T2> // cin >> pair<T1, T2>
-istream &operator>>(istream &istream, pair<T1, T2> &p){return (istream >> p.first >> p.second);}
-template <typename T> // cin >> vector<T>
-istream &operator>>(istream &istream, vector<T> &v){for (auto &it : v) cin >> it; return istream;}
+const int mod = 1e9 + 7;
 
 void precompute(){
 }
 void solve(int test){
-    
-}
+    int n, m, k;
+    cin >> n >> m >> k;
+    vector<vector<ll>> adj[n+1];
+    for(int i=0; i<m; i++){
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u].push_back({v, w, 0});
+        adj[v].push_back({u, w, 0});
+    }
+    vector<ll> train(n+1, INT_MAX);
+    for(int i=0; i<k; i++){
+        ll u, d;
+        cin >> u >> d;
+        train[u] = min(d, train[u]);
+    }
+    for(int i=1; i<=n; i++){
+        if(train[i] >= INT_MAX) continue;
+        adj[1].push_back({i, train[i], 1});
+    }
+    vector<ll> dis(n+1, 1e16);
+    priority_queue<vector<ll>> pq;
+    pq.push({0, 0, 1}); // dis, train_path, node
+    dis[1] = 0;
+    int ans = 0;
+    while(!pq.empty()){
+        // as those with the least dist. will be coming first
+        // and if distance are same road path will be given prefrence as road_path has val = 0
+        auto it = pq.top();
+        int node = it[2];
+        int tr = it[1];
+        ll d = -it[0];
+        pq.pop();
+        if(dis[node] != d) continue;
+        ans += tr;
+        for(auto it: adj[node]){
+            int adjNode = it[0];
+            ll w = it[1];
+            if(d + w < dis[adjNode]){
+                dis[adjNode] = d + w;
+                pq.push({-dis[adjNode], it[2], adjNode});
+            }
+        }
+    }
+    ans = k - ans;
+    cout << ans << endl;
+}   
 int main() {
-#ifndef ONLINE_JUDGE
-    // for getting input from input.txt
-    freopen("input1.txt", "r", stdin);
-    // for writing output to output.txt
-    freopen("output1.txt", "w", stdout);
-#endif
-    srand(time(NULL));
     ios::sync_with_stdio(false);
     cin.tie(0); 
-    ll t = 1;
+    int t = 1;
+    // cin >> t;
     precompute();
-    cin >> t;
     for(int i=1; i<=t; i++){
         solve(i);
     }
