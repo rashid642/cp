@@ -10,7 +10,7 @@ const int mod = 1e9 + 7;
 void precompute(){
 }
 void solve(int test){
-
+    
 }   
 int main() {
     ios::sync_with_stdio(false);

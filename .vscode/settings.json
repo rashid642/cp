@@ -30,7 +30,8 @@
         "limits": "cpp",
         "shared_mutex": "cpp",
         "sstream": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "new": "cpp"
     },
     "cph.general.onceMaintainerMessage": false
 }
