@@ -6,7 +6,9 @@ using namespace std;
 class SegmentTree{
     public: 
     vector<ll> tree;
-    SegmentTree(int n){
+    int n;
+    SegmentTree(int _n){
+        n = _n;
         for(int i=0; i<4*n+1; i++) tree.push_back(-1);
     }
     ll operation(ll a, ll b){
@@ -29,7 +31,7 @@ class SegmentTree{
         // complete overlap
         if(l >= i && r <= j) return tree[ind];
         // no overlap
-        if(j < l || r < i) return LONG_LONG_MAX;
+        if(j < l || r < i) return 0;
         // partial overlap
         int mid = (l + r) / 2;
         return operation(query(i, j, l, mid, 2*ind+1), query(i, j, mid+1, r, 2*ind+2));
@@ -43,6 +45,12 @@ class SegmentTree{
         build(v, l, mid, 2*ind+1);
         build(v, mid+1, r, 2*ind+2);
         tree[ind] = operation(tree[2*ind+1], tree[2*ind+2]);
+    }
+    ll make_query(int l, int r){
+        return query(l, r, 0, n-1, 0);
+    }
+    void make_update(int ind, int val){
+        update(0, n-1, 0, val, ind);
     }
 };
 

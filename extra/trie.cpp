@@ -74,7 +74,7 @@ class Trie{
     Trie(){
         head = new Node();
     }
-    void insert(string s){
+    void insert(string &s){
         Node* t = head;
         for(int i=0; i<s.size(); i++){
             if(t->next[s[i] - 'a'] == NULL){
@@ -89,7 +89,7 @@ class Trie{
         }
         t->count++;
     }
-    void remove(string s){
+    void remove(string &s){
         Node* t = head;
         for(int i=0; i<s.size(); i++){
             t = t->next[s[i] - 'a'];
@@ -101,7 +101,7 @@ class Trie{
         }
         t->count--;
     }
-    int findString(string s){
+    int findString(string &s){
         Node* t = head;
         for(int i=0; i<s.size(); i++){
             if(t->next[s[i] - 'a'] == NULL) return 0;
@@ -109,7 +109,7 @@ class Trie{
         }
         return t->count;
     }
-    int startsWith(string s){
+    int startsWith(string &s){
         Node* t = head;
         for(int i=0; i<s.size(); i++){
             if(t->next[s[i] - 'a'] == NULL) return 0;
