@@ -75,45 +75,41 @@ class FenwickTree{
         return sum(r) - sum(l - 1);
     }
 };
-class FenwickTree2D{
-    public:
-    vector<vector<int>> tree;
-    int n, m;
-    FenwickTree2D(vector<vector<int>> &v){
-        n = v.size(), m = v[0].size();
-        tree.resize(n+1, vector<int>(m+1, 0));
-        for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                update(i, j, v[i][j]);
-            }
-        }
-    }
-    void update(int x, int y, int val){
-        for(int i = x + 1; i<=n; i += (i&-i)){
-            for(int j = y + 1; j<=m; j += (j&-j)){
-                tree[i][j] += val;
-            }
-        }
-    }
-    int sum(int x, int y){
-        int s = 0;
-        for(int i = x + 1; i>0; i -= (i&-i)){
-            for(int j = y + 1; j>0; j -= (j&-j)){
-                s += tree[i][j];
-            }
-        }
-        return s;
-    }
-    int query(int r1, int c1, int r2, int c2){
-        return sum(r2, c2) - sum(r1-1, c2) - sum(r2, c1-1) + sum(r1-1, c1-1);
-    }
-};
+
+
+// 2D fenwick tree 1 based indexing
+int n = 1005;
+int bit[1005][1005];
+
+void update(int x, int y, int val) {
+	for (; x <= n; x += (x & (-x))) {
+		for (int i = y; i <= n; i += (i & (-i))) { bit[x][i] += val; }
+	}
+}
+int query(int x1, int y1, int x2, int y2) {
+	int ans = 0;
+	for (int i = x2; i; i -= (i & (-i))) {
+		for (int j = y2; j; j -= (j & (-j))) { ans += bit[i][j]; }
+	}
+	for (int i = x2; i; i -= (i & (-i))) {
+		for (int j = y1 - 1; j; j -= (j & (-j))) { ans -= bit[i][j]; }
+	}
+	for (int i = x1 - 1; i; i -= (i & (-i))) {
+		for (int j = y2; j; j -= (j & (-j))) { ans -= bit[i][j]; }
+	}
+	for (int i = x1 - 1; i; i -= (i & (-i))) {
+		for (int j = y1 - 1; j; j -= (j & (-j))) { ans += bit[i][j]; }
+	}
+	return ans;
+}
+
+
 int main(){
-    vector<vector<int>> a = {{1,2,3,4},{2,3,4,5},{3,4,5,6}};
-    FenwickTree2D ft2(a);
-    cout << ft2.query(0,0, 2,3) << endl;
-    ft2.update(1,1,10);
-    return 0;
+    // vector<vector<int>> a = {{1,2,3,4},{2,3,4,5},{3,4,5,6}};
+    // FenwickTree2D ft2(a);
+    // cout << ft2.query(0,0, 2,3) << endl;
+    // ft2.update(1,1,10);
+    // return 0;
 }
 
     // vector<int> v = {1,2,3,4,5,6};

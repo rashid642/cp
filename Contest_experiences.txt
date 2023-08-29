@@ -5,6 +5,31 @@
 // ██║     ██║██║ ╚████║██║███████║██║  ██║    ╚███╔███╔╝██║  ██║██║  ██║   ██║          ██║   ╚██████╔╝╚██████╔╝    ███████║   ██║   ██║  ██║██║  ██║   ██║       ██╗
 // ╚═╝     ╚═╝╚═╝  ╚═══╝╚═╝╚══════╝╚═╝  ╚═╝     ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝          ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝  
 
-1. Can use some maths, try making equations
-2. Start with brute force
+Virtual Contest 1
+1. bad observation (was close)
+2. Silly mistake
+
+Codeforces Round 892 (Div. 2)
+1. Silly mistake while writing brute force (Look at how was that derived)
+2. Could increase the speed
+
+Codeforces Round 893 (Div. 2)
+1. You can keep your speed fast through out the Contest
+
+Educational Codeforces Round 114 (Rated for Div. 2)
+1. Read question wrong
+2. A was good might increase speed
+3. B I read question wrong
+4. C did quick was simple
+4. D i'll upsolve, quite tough
+
+Codeforces Round 894 (Div. 3)
+1. Should have tried generalizing and formulating formula (Imp)
+2. Wasn't able to find dp states
+3. Speed was quite good
+
+Harbour.Space Scholarship Contest 2023-2024 (Div. 1 + Div. 2)
+1. Was quite lucky
+2. still unable to think for D
+
 
