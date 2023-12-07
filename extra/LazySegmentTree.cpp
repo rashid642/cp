@@ -3,12 +3,13 @@ using namespace std;
 const int N = 1e6 + 5;
 class LazySegmentTree{
     public:
-    long long tree[4*N+1], lazy[4*N+1];
-    LazySegmentTree(int n){
-        for(int i=0; i<4*N+1; i++){
-            tree[i] = 0;
-            lazy[i] = 0;
-        }
+    // long long tree[4*N+1], lazy[4*N+1];
+    vector<long long> tree, lazy; 
+    int n;
+    LazySegmentTree(int _n){
+        n = _n;
+        tree.resize(4*n+1, 0);
+        lazy.resize(4*n+1, 0);
     }
     long long operation(long long a, long long b){
         return (a + b);
@@ -60,13 +61,10 @@ class LazySegmentTree{
         tree[ind] = operation(tree[2*ind+1], tree[2*ind+2]);
     }
     long long make_query(int l, int r){
-        return query(0, N, 0, l, r);
+        return query(0, n-1, 0, l, r);
     }
     void make_update(int ind1, int ind2, long long val){
-        update(0, N, 0, ind1, ind2, val);
-    }
-    void tv(){
-        for(auto it: tree) cout << it << " "; cout << endl;
+        update(0, n-1, 0, ind1, ind2, val);
     }
 };
 int main(){

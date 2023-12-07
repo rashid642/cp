@@ -11,5 +11,6 @@ mistakes done in past
 3. Search all the blogs of google and note down the questions 
 4. Pray
 
-1. https://codeforces.com/contest/1882/problem/D
-2. STARTERS 84 solution analysis
+1. Solve div3 last question
+2. LC 2 content last 2 problem
+3. CC 2 contest

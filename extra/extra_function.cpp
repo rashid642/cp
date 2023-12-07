@@ -22,16 +22,18 @@ ll power(ll a, ll b, ll modu){ // a ^ b
     if(b%2) ans = (ans*a);
     return ans % modu;
 }
+
+const long long inf = 1e18 + 10;
 ll handlePower(ll a, ll b){ // a ^ b
     if(b == 0) return 1LL;
     ll ans = handlePower(a, b/2);
     if(ans == -1) return -1;
-    __int128 t = (ans * ans);
-    if(t > 1e10) return -1;
+    __int128 t = ((__int128)1*ans * ans);
+    if(t >= inf) return -1;
     ans = t;
     if(b%2) {
-        __int128 t = (ans*a);
-        if(t > 1e10) return -1;
+        __int128 t = ((__int128)1*ans*a);
+        if(t > inf) return -1;
         ans = (ans*a);
     }
     return ans;

@@ -45,7 +45,10 @@
         "thread": "cpp",
         "type_traits": "cpp",
         "typeindex": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "any": "cpp",
+        "iomanip": "cpp",
+        "numeric": "cpp"
     },
     "cph.general.onceMaintainerMessage": false
 }
